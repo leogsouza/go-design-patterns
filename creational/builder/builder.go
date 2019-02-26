@@ -7,54 +7,80 @@ type BuildProcess interface {
 	GetVehicle() VehicleProduct
 }
 
-type ManufacturingDirector struct{}
+// ManufacturingDirector is in charge of construct objects
+type ManufacturingDirector struct {
+	builder BuildProcess
+}
 
+// Construct constructs the object with all properties
 func (f *ManufacturingDirector) Construct() {
-	// Implementation goes here
+	f.builder.SetSeats().SetStructure().SetWheels()
 }
 
+// SetBuilder sets current builder
 func (f *ManufacturingDirector) SetBuilder(b BuildProcess) {
-	// Implementation goes here
+	f.builder = b
 }
 
+// VehicleProduct holds properties which are common to vehicles
 type VehicleProduct struct {
 	Wheels    int
 	Seats     int
 	Structure string
 }
 
-type CarBuilder struct{}
+// CarBuilder is a struct for a car
+type CarBuilder struct {
+	v VehicleProduct
+}
 
+// SetWheels defines the quantity of wheels have a car
 func (c *CarBuilder) SetWheels() BuildProcess {
-	return nil
+	c.v.Wheels = 4
+	return c
 }
 
+// SetSeats defines the quantity of setas have a car
 func (c *CarBuilder) SetSeats() BuildProcess {
-	return nil
+	c.v.Seats = 5
+	return c
 }
 
+// SetStructure defines the name of the structure
 func (c *CarBuilder) SetStructure() BuildProcess {
-	return nil
+	c.v.Structure = "Car"
+	return c
 }
 
+// GetVehicle gets the object built
 func (c *CarBuilder) GetVehicle() VehicleProduct {
-	return VehicleProduct{}
+	return c.v
 }
 
-type BikeBuilder struct{}
+// BikeBuilder is a struct for a motorbike
+type BikeBuilder struct {
+	v VehicleProduct
+}
 
+// SetWheels defines the quantity of wheels have a motorbike
 func (b *BikeBuilder) SetWheels() BuildProcess {
-	return nil
+	b.v.Wheels = 2
+	return b
 }
 
+// SetSeats defines the quantity of seats have a motorbike
 func (b *BikeBuilder) SetSeats() BuildProcess {
-	return nil
+	b.v.Seats = 2
+	return b
 }
 
+// SetStructure defines the name of the structure
 func (b *BikeBuilder) SetStructure() BuildProcess {
-	return nil
+	b.v.Structure = "Motorbike"
+	return b
 }
 
+// GetVehicle gets the object built
 func (b *BikeBuilder) GetVehicle() VehicleProduct {
-	return VehicleProduct{}
+	return b.v
 }
