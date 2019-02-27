@@ -28,7 +28,7 @@ func TestGetPaymentMethodDebitCard(t *testing.T) {
 
 	msg := payment.Pay(22.30)
 
-	if !strings.Contains(msg, "paid using debit card") {
+	if !strings.Contains(msg, "paid using debit card (new)") {
 		t.Error("The debit card payment method message wasn't correct")
 	}
 

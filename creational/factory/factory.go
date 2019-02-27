@@ -23,7 +23,7 @@ func GetPaymentMethod(m int) (PaymentMethod, error) {
 	case Cash:
 		return new(CashPM), nil
 	case DebitCard:
-		return new(DebitCardPM), nil
+		return new(CreditCardPM), nil
 	default:
 		return nil, errors.New(fmt.Sprintf("Payment method %d not recognized\n",
 			m))
@@ -36,6 +36,9 @@ type CashPM struct{}
 // DebitCardPM corresponds to Debit Card payment method
 type DebitCardPM struct{}
 
+// CreditCardPM corresponds to Credit card payment method
+type CreditCardPM struct{}
+
 // Pay implements payment method for CashPM
 func (c *CashPM) Pay(amount float32) string {
 	return fmt.Sprintf("%0.2f paid using cash\n", amount)
@@ -44,4 +47,10 @@ func (c *CashPM) Pay(amount float32) string {
 // Pay implements payment method for DebitCardPM
 func (c *DebitCardPM) Pay(amount float32) string {
 	return fmt.Sprintf("%#0.2f paid using debit card\n", amount)
+}
+
+// Pay implements payment method for CreditCardPM
+func (d *CreditCardPM) Pay(amount float32) string {
+	return fmt.Sprintf("%#0.2f paid using debit card (new)\n",
+		amount)
 }
