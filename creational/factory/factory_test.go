@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestCreatePaymentMethodCash(t *testing.T) {
+func TestGetPaymentMethodCash(t *testing.T) {
 	payment, err := GetPaymentMethod(Cash)
 	if err != nil {
 		t.Fatal("A payment method of type 'Cash' must exist")
