@@ -17,7 +17,12 @@ const (
 // BuildFactory create a new factory according the type
 func BuildFactory(f int) (VehicleFactory, error) {
 	switch f {
+	case CarFactoryType:
+		return new(CarFactory), nil
+	case MotorbikeFactoryType:
+		return new(MotorbikeFactory), nil
 	default:
 		return nil, fmt.Errorf("factory with id %d not recognized", f)
+
 	}
 }
