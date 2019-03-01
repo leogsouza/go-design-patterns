@@ -18,12 +18,39 @@ func TestMotorbikeFactory(t *testing.T) {
 	t.Logf("Motorbike vehicle has %d wheels\n",
 		motorbikeVehicle.NumWheels())
 
+	t.Logf("Motorbike vehicle has %d seats\n",
+		motorbikeVehicle.NumSeats())
+
 	sportBike, ok := motorbikeVehicle.(Motorbike)
 	if !ok {
 		t.Fatal("Struct assertion has failed")
 	}
 
-	t.Logf("Sport motorbike has tpe %d\n", sportBike.GetMotorbikeType())
+	t.Logf("Sport motorbike has type %d\n", sportBike.GetMotorbikeType())
+
+	motorbikeVehicle, err = motorbikeF.Build(CruiseMotorbikeType)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Logf("CruiseMotorbike vehicle has %d wheels\n",
+		motorbikeVehicle.NumWheels())
+
+	t.Logf("CruiseMotorbike vehicle has %d seats\n",
+		motorbikeVehicle.NumSeats())
+
+	cruiseBike, ok := motorbikeVehicle.(Motorbike)
+	if !ok {
+		t.Fatal("Struct assertion has failed")
+	}
+
+	t.Logf("Cruise motorbike has type %d\n", cruiseBike.GetMotorbikeType())
+
+	_, err = motorbikeF.Build(20)
+	if err == nil {
+		t.Error("A motorbike type with ID 20 must return an error")
+	}
+	t.Log("LOG:", err)
 }
 
 func TestCarFactory(t *testing.T) {
@@ -52,6 +79,9 @@ func TestCarFactory(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	t.Logf("Car vehicle has %d wheels\n", carVehicle.NumWheels())
+	t.Logf("Car vehicle has %d seats\n", carVehicle.NumSeats())
+
 	familyCar, ok := carVehicle.(Car)
 
 	if !ok {
@@ -59,7 +89,6 @@ func TestCarFactory(t *testing.T) {
 	}
 
 	t.Logf("Family car has %d doors", familyCar.NumDoors())
-	t.Logf("Family car has %d seats\n", carVehicle.NumSeats())
 
 	_, err = carF.Build(20)
 	if err == nil {
