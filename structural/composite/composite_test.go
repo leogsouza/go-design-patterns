@@ -9,7 +9,7 @@ func TestAthlete_Train(t *testing.T) {
 
 func TestSwimmer_Swim(t *testing.T) {
 	localSwim := Swim
-	swimmer := CompositeSwimmerA{
+	swimmer := SwimmerA{
 		MySwim: &localSwim,
 	}
 	swimmer.MyAthlete.Train()
@@ -26,7 +26,7 @@ func TestAnimal_Swim(t *testing.T) {
 }
 
 func TestSwimmer_Swim2(t *testing.T) {
-	swimmer := CompositeSwimmerB{
+	swimmer := SwimmerB{
 		&Athlete{},
 		&SwimmerImpl{},
 	}
