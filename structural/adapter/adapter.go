@@ -2,7 +2,7 @@ package adapter
 
 import "fmt"
 
-// LegacyPrints is an old interface
+// LegacyPrinter is an old interface
 type LegacyPrinter interface {
 	Print(s string) string
 }
@@ -29,7 +29,7 @@ type PrinterAdapter struct {
 	Msg        string
 }
 
-// PrinStored
+// PrintStored prints the message store in legacy printer
 func (p *PrinterAdapter) PrintStored() (newMsg string) {
 	if p.OldPrinter != nil {
 		newMsg = fmt.Sprintf("Adapter: %s", p.Msg)
