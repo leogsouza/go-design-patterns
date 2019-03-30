@@ -17,10 +17,10 @@ type UserList []User
 
 // UserListProxy is our proxy type
 type UserListProxy struct {
-	SomeDatabase              UserList
-	StackCache                UserList
-	StackCapacity             int
-	DidDidLastSearchUserCache bool
+	SomeDatabase           *UserList
+	StackCache             UserList
+	StackCapacity          int
+	DidLastSearchUsedCache bool
 }
 
 // FindUser finds user from proxy or database
