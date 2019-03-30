@@ -1,6 +1,8 @@
 package proxy
 
-import "errors"
+import (
+	"fmt"
+)
 
 // UserFinder is the interface that the database and the Proxy will implement
 type UserFinder interface {
@@ -15,6 +17,16 @@ type User struct {
 // UserList holds a slice of users
 type UserList []User
 
+// FindUser searches for an user inside of UserList
+func (t *UserList) FindUser(id int32) (User, error) {
+	for i := 0; i < len(*t); i++ {
+		if (*t)[i].ID == id {
+			return (*t)[i], nil
+		}
+	}
+	return User{}, fmt.Errorf("user %d, could not be found", id)
+}
+
 // UserListProxy is our proxy type
 type UserListProxy struct {
 	SomeDatabase           *UserList
@@ -25,5 +37,32 @@ type UserListProxy struct {
 
 // FindUser finds user from proxy or database
 func (u *UserListProxy) FindUser(id int32) (User, error) {
-	return User{}, errors.New("Not implemented yet")
+	user, err := u.StackCache.FindUser(id)
+	if err == nil {
+		fmt.Println("Returning user from cache")
+		u.DidLastSearchUsedCache = true
+		return user, nil
+	}
+
+	user, err = u.SomeDatabase.FindUser(id)
+	if err != nil {
+		return User{}, err
+	}
+	u.addUserToStack(user)
+
+	fmt.Println("Returning user from database")
+	u.DidLastSearchUsedCache = false
+	return user, nil
+}
+
+func (u *UserListProxy) addUserToStack(user User) {
+	if len(u.StackCache) >= u.StackCapacity {
+		u.StackCache = append(u.StackCache[1:], user)
+	} else {
+		u.StackCache.addUser(user)
+	}
+}
+
+func (t *UserList) addUser(newUser User) {
+	*t = append(*t, newUser)
 }
