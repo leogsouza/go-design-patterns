@@ -4,11 +4,13 @@ import (
 	"time"
 )
 
+// Team types
 const (
-	TEAM_A = iota
-	TEAM_B
+	TeamA = iota
+	TeamB
 )
 
+// Team struct holds all informations about a team
 type Team struct {
 	ID             uint64
 	Name           string
@@ -17,6 +19,7 @@ type Team struct {
 	HistoricalData []HistoricalData
 }
 
+// Player represents a player of a team
 type Player struct {
 	Name         string
 	Surname      string
@@ -24,11 +27,13 @@ type Player struct {
 	Photo        []byte
 }
 
+// HistoricalData represents all data related to the championship
 type HistoricalData struct {
 	Year          uint8
 	LeagueResults []Match
 }
 
+// Match contains informations about the match played between two teams
 type Match struct {
 	Date          time.Time
 	VisitorID     uint64
@@ -40,13 +45,13 @@ type Match struct {
 }
 
 type teamFlyweightFactory struct {
-	createdTeams map[string]*Team
+	createdTeams map[int]*Team
 }
 
-func (t *teamFlyweightFactory) GetTeam(name string) *Team {
+func (t *teamFlyweightFactory) GetTeam(team int) *Team {
 	return nil
 }
 
-func (t *teamFlyweightFactory) GetNumberOfObject() int {
+func (t *teamFlyweightFactory) GetNumberOfObjects() int {
 	return 0
 }
