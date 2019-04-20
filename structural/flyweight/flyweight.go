@@ -48,10 +48,38 @@ type teamFlyweightFactory struct {
 	createdTeams map[int]*Team
 }
 
-func (t *teamFlyweightFactory) GetTeam(team int) *Team {
-	return nil
+// NewTeamFactory return a new instance of teamFlyweightFactory
+func NewTeamFactory() teamFlyweightFactory {
+	return teamFlyweightFactory{
+		createdTeams: make(map[int]*Team),
+	}
+}
+
+func getTeamFactory(team int) Team {
+	switch team {
+	case TeamB:
+		return Team{
+			ID:   2,
+			Name: "Team B",
+		}
+	default:
+		return Team{
+			ID:   1,
+			Name: "Team A",
+		}
+	}
+}
+
+func (t *teamFlyweightFactory) GetTeam(teamID int) *Team {
+	if t.createdTeams[teamID] != nil {
+		return t.createdTeams[teamID]
+	}
+
+	team := getTeamFactory(teamID)
+	t.createdTeams[teamID] = &team
+	return t.createdTeams[teamID]
 }
 
 func (t *teamFlyweightFactory) GetNumberOfObjects() int {
-	return 0
+	return len(t.createdTeams)
 }
