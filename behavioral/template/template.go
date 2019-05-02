@@ -1,5 +1,7 @@
 package template
 
+import "strings"
+
 // MessageRetriever represents a message which will be returned
 // to the user
 type MessageRetriever interface {
@@ -17,14 +19,16 @@ type Templater interface {
 type Template struct{}
 
 func (t *Template) first() string {
-	return ""
+	return "hello"
 }
 
 func (t *Template) third() string {
-	return ""
+	return "template"
 }
 
-// ExecuteAlgorithm executes the altorithm and returns the message
+// ExecuteAlgorithm accepts MessageRetriever as argument and returns
+// the full algorithm: a single string done by joining the strings returned
+// by the first(), Message() string and third() methods
 func (t *Template) ExecuteAlgorithm(m MessageRetriever) string {
-	return ""
+	return strings.Join([]string{t.first(), m.Message(), t.third()}, " ")
 }
