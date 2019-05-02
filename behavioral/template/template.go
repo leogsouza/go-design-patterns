@@ -6,23 +6,25 @@ type MessageRetriever interface {
 	Message() string
 }
 
-// Template describes the behavior of algorithm to be executed
-type Template interface {
+// Templater describes the behavior of algorithm to be executed
+type Templater interface {
 	first() string
 	third() string
 	ExecuteAlgorithm(MessageRetriever) string
 }
 
-type TemplateImpl struct{}
+// Template represents the template interface implementation
+type Template struct{}
 
-func (t *TemplateImpl) first() string {
+func (t *Template) first() string {
 	return ""
 }
 
-func (t *TemplateImpl) third() string {
+func (t *Template) third() string {
 	return ""
 }
 
-func (t *TemplateImpl) ExecuteAlgorithm(m MessageRetriever) string {
+// ExecuteAlgorithm executes the altorithm and returns the message
+func (t *Template) ExecuteAlgorithm(m MessageRetriever) string {
 	return ""
 }
