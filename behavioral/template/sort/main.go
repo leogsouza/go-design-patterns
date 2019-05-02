@@ -5,6 +5,7 @@ import (
 	"sort"
 )
 
+// MyList is type of slice of int
 type MyList []int
 
 func (m MyList) Len() int {
