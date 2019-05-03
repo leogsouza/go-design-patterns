@@ -18,11 +18,11 @@ type originator struct {
 }
 
 func (o *originator) NewMemento() memento {
-	return memento{}
+	return memento{state: o.state}
 }
 
 func (o *originator) ExtractAndStoreState(m memento) {
-	// Does nothing
+	o.state = m.state
 }
 
 type careTaker struct {
@@ -30,9 +30,12 @@ type careTaker struct {
 }
 
 func (c *careTaker) Add(m memento) {
-	// Does nothing
+	c.mementoList = append(c.mementoList, m)
 }
 
 func (c *careTaker) Memento(i int) (memento, error) {
-	return memento{}, fmt.Errorf("No implemented yet")
+	if len(c.mementoList) < i || i < 0 {
+		return memento{}, fmt.Errorf("index not found")
+	}
+	return c.mementoList[i], nil
 }
