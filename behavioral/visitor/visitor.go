@@ -1,7 +1,9 @@
 package visitor
 
 import (
+	"fmt"
 	"io"
+	"os"
 )
 
 // MessageA is a message logger that will print a message
@@ -33,30 +35,38 @@ type MessageVisitor struct{}
 
 // VisitA stores the modified message into messageA
 func (mv *MessageVisitor) VisitA(m *MessageA) {
-	// Do nothing
+	m.Msg = fmt.Sprintf("%s %s", m.Msg, "(Visited A)")
 }
 
 // VisitB stores the modified message into messageB
 func (mv *MessageVisitor) VisitB(m *MessageB) {
-	// Do nothing
+	m.Msg = fmt.Sprintf("%s %s", m.Msg, "(Visited B)")
 }
 
 // Accept add messageA to VisitA
 func (m *MessageA) Accept(v Visitor) {
-	// Do nothing
+	v.VisitA(m)
 }
 
 // Accept add messageB to VisitB
 func (m *MessageB) Accept(v Visitor) {
-	// Do nothing
+	v.VisitB(m)
 }
 
 // Print prints the MessageA message
 func (m *MessageA) Print() {
-	// Do nothing
+	if m.Output == nil {
+		m.Output = os.Stdout
+	}
+
+	fmt.Fprintf(m.Output, "A: %s", m.Msg)
 }
 
 // Print prints the MessageB message
 func (m *MessageB) Print() {
-	// Do nothing
+	if m.Output == nil {
+		m.Output = os.Stdout
+	}
+
+	fmt.Fprintf(m.Output, "B: %s", m.Msg)
 }
