@@ -65,10 +65,26 @@ type FinishState struct{}
 
 func (f *FinishState) executeState(c *GameContext) bool {
 	if c.Won {
-		println("Congrats, you won")
+		c.Next = &WinState{}
 	} else {
-		println("You lose")
+		c.Next = &LoseState{}
 	}
+	return true
+}
+
+// WinState represents the state when the user win the game
+type WinState struct{}
+
+func (w *WinState) executeState(c *GameContext) bool {
+	fmt.Println("Congrats, you won")
+	return false
+}
+
+// LoseState represents the state when the user lose the game
+type LoseState struct{}
+
+func (l *LoseState) executeState(c *GameContext) bool {
+	fmt.Printf("You lose. The correct number was: %d\n", c.SecretNumber)
 	return false
 }
 
