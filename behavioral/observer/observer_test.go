@@ -68,22 +68,22 @@ func TestSubject(t *testing.T) {
 				t.Errorf("The observer's Message field weren't empty: %s\n",
 					printObserver.Message)
 			}
+		}
 
-			message := "Hello World!"
-			publisher.NotifyObservers(message)
+		message := "Hello World!"
+		publisher.NotifyObservers(message)
 
-			for _, observer := range publisher.ObserversList {
-				printObserver, ok := observer.(*TestObserver)
-				if !ok {
-					t.Fail()
-					break
-				}
+		for _, observer := range publisher.ObserversList {
+			printObserver, ok := observer.(*TestObserver)
+			if !ok {
+				t.Fail()
+				break
+			}
 
-				if printObserver.Message != message {
-					t.Errorf("Expected message on observer %d was "+
-						"not expected: '%s' != '%s'\n", printObserver.ID,
-						printObserver.Message, message)
-				}
+			if printObserver.Message != message {
+				t.Errorf("Expected message on observer %d was "+
+					"not expected: '%s' != '%s'\n", printObserver.ID,
+					printObserver.Message, message)
 			}
 		}
 	})
