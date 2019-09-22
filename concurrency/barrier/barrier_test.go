@@ -12,7 +12,7 @@ func TestBarrier(t *testing.T) {
 
 		result := captureBarrierOutput(endpoints...)
 		if !strings.Contains(result, "Accept-Encoding") ||
-			strings.Contains(result, "User-Agent") {
+			!strings.Contains(result, "User-Agent") {
 			t.Fail()
 		}
 		t.Log(result)
